@@ -1,5 +1,5 @@
 var playTarget = '.player-controls__play';
-var nextTarget = '.button_round';
+var nextTarget = '.slider__item_next';
 
 function onKeyPress(key) {
     if (key === NEXT) {
