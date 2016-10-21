@@ -9,6 +9,9 @@ Just created a fork to make some changes since the [official repo](https://githu
 6. Navigate to where you checked out the Git repo, select extension folder
 7. Click `ok`
 
+**What's new:**
+1. Fixed next button for Yandex Radio
+2. Support new VK interface (widget in header still is not supported)
 
 ﻿Global keyboard bindings to control your Chrome-based music player. Allows your keyboard media keys (play/pause, next, previous) to work when you're listening to music on common streaming websites.
 
