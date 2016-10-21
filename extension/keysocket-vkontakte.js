@@ -1,22 +1,17 @@
 var playTarget = {
-        audio_page: 'ac_play',
-        audio_modal: 'pd_play',
-        audio_widget: 'gp_play',
-        head_button: 'head_play_btn'
+        audio_page: '.audio_page_player_play'
     },
     nextTarget = {
-        audio_page: 'ac_next',
-        audio_modal: 'pd_next'
+        audio_page: '.audio_page_player_next'
     },
     prevTarget = {
-        audio_page: 'ac_prev',
-        audio_modal: 'pd_prev'
+        audio_page: '.audio_page_player_prev'
     };
 
 function clickMany(targets) {
     for (var elementId in targets) {
         if (targets.hasOwnProperty(elementId))
-            simulateClick(document.getElementById(targets[elementId]));
+            simulateClick(document.querySelector(targets[elementId]));
     }
 }
 
