@@ -1,10 +1,14 @@
-```
-Due to lack of time, I will not be accepting new pull requests.
-Please fork this project and customize it to your own needs.
-I look forward to your fork becoming the de facto version.
+﻿**Unoffical Version**
+Just created a fork to make some changes since the [official repo](https://github.com/borismus/keysocket) has decided not include these anymore for reasons of maintainability.  Use this extension at your own risk.  To install do the following:
 
-All the best, Boris.
-```
+1. Check out this repo
+2. Go to Chrome > More Tools > Extensions
+3. If you already have Key Socket Media Keys installed then disable it now
+4. At the top of the page check the box that says `Developer Mode`
+5. Click the button that says `Load unpacked extension...` 
+6. Navigate to where you checked out the Git repo, select extension folder
+7. Click `ok`
+
 
 ﻿Global keyboard bindings to control your Chrome-based music player. Allows your keyboard media keys (play/pause, next, previous) to work when you're listening to music on common streaming websites.
 
