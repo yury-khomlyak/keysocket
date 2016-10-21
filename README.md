@@ -10,6 +10,7 @@ Just created a fork to make some changes since the [official repo](https://githu
 7. Click `ok`
 
 **What's new:**
+
 1. Fixed next button for Yandex Radio
 2. Support new VK interface (widget in header still is not supported)
 
