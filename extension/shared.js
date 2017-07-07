@@ -18,6 +18,7 @@ var PLAY = 'play-pause';
 var NEXT = 'next';
 var STOP = 'stop';
 
+var onNotificationButtonClicked = onNotificationButtonClicked || function() {};
 
 function simulateClick(element) {
     if (!element) {
@@ -33,10 +34,32 @@ function simulateClick(element) {
     return element.dispatchEvent(click);
 }
 
+function sendNotification(options) {
+    if (options.buttons) {
+        options.buttons = options.buttons.map(function (val) {
+            return {title: val.title, iconUrl: getStyleImage(document.querySelector(val.icon))};
+        });
+    }
+
+    chrome.runtime.sendMessage({command: 'sendNotification', options});
+}
+
+function getStyleImage(el) {
+    var imageUrl = getComputedStyle(el).backgroundImage;
+
+    imageUrl = imageUrl.slice(3).replace(/['"()]/g, '');
+
+    return imageUrl;
+}
+
 chrome.runtime.onMessage.addListener(
     function(request) {
-        console.log('Received keypress: ', request);
-        onKeyPress(request.command);
+        if (request.command === 'clickNotificationButton') {
+            onNotificationButtonClicked(request.index);
+        } else {
+            console.log('Received keypress: ', request);
+            onKeyPress(request.command);
+        }
     }
 );
 

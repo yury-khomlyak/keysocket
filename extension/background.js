@@ -55,10 +55,18 @@ var unregisterTab = function (tabId) {
     }
 };
 
-var updateContextMenu = function(tabId){
-    chrome.tabs.query({active: true}, function(tab){
+var sendEventToAllTabs = function (command, data) {
+    data = data ? Object.assign({command: command}, data) : {command: command};
+
+    for (var i = 0; i < registeredTabs.length; i++) {
+        chrome.tabs.sendMessage(registeredTabs[i], data);
+    }
+};
+
+var updateContextMenu = function (tabId) {
+    chrome.tabs.query({active: true}, function (tab) {
         tab = tab[0];
-        if(tab.id == tabId) {
+        if (tab.id == tabId) {
             var index = registeredTabs.indexOf(tabId);
             if (index > -1) {
                 chrome.contextMenus.update("keySocketMediaKeys-disableThisTab", {enabled: true});
@@ -72,12 +80,27 @@ var updateContextMenu = function(tabId){
     });
 };
 
+var createNotification = function (request) {
+    if (!request.options) {
+        return;
+    }
+
+    var options = {
+        type: 'list',
+        title: `Now Playing on ${request.options.source}`,
+        message: 'Now Playing',
+        iconUrl: request.options.image,
+        items: [{title: request.options.artist, message: request.options.title}],
+        buttons: request.options.buttons || []
+    };
+
+    chrome.notifications.create('now-playing', options);
+};
+
 chrome.commands.onCommand.addListener(function (command) {
     console.log('Command:', command);
 
-    for (var i = 0; i < registeredTabs.length; i++) {
-        chrome.tabs.sendMessage(registeredTabs[i], {command: command});
-    }
+    sendEventToAllTabs(command);
 });
 
 chrome.runtime.onMessage.addListener(
@@ -88,9 +111,18 @@ chrome.runtime.onMessage.addListener(
             registerTab(sender.tab.id);
         } else if (request.command == 'unregisterTab' && sender.tab) {
             unregisterTab(sender.tab.id);
+        } else if (request.command == 'sendNotification') {
+            createNotification(request);
         }
     }
 );
+
+// notification buttons listener
+chrome.notifications.onButtonClicked.addListener(function (notificationId, buttonIndex) {
+    if (notificationId === 'now-playing') {
+        sendEventToAllTabs('clickNotificationButton', {index: buttonIndex});
+    }
+});
 
 chrome.tabs.onRemoved.addListener(unregisterTab);
 
