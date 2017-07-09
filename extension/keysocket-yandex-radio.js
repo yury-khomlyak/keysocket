@@ -22,7 +22,7 @@ function onKeyPress(key) {
     if (key === NEXT) {
         simulateClick(next);
 
-        createNotification();
+        createNotification(next);
     } else if (key === PLAY) {
         simulateClick(document.querySelector(playTarget));
     }
@@ -35,11 +35,11 @@ function onNotificationButtonClicked(index) {
     simulateClick(button);
 }
 
-function createNotification() {
+function createNotification(el) {
     sendNotification({
-        image: getStyleImage(next.querySelector(imageTarget)),
-        title: next.querySelector(titleTarget).getAttribute('title'),
-        artist: next.querySelector(artistTarget).getAttribute('title'),
+        image: getStyleImage(el.querySelector(imageTarget)),
+        title: el.querySelector(titleTarget).getAttribute('title'),
+        artist: el.querySelector(artistTarget).getAttribute('title'),
         source: 'Yandex Radio',
         buttons: notificationButtons
     });
