@@ -104,7 +104,8 @@
     },
     {
       "matches": ["*://radio.yandex.ru/*", "*://radio.yandex.by/*", "*://radio.yandex.ua/*", "*://radio.yandex.kz/*", "*://radio.yandex.tr/*"],
-      "js": ["shared.js","keysocket-yandex-radio.js"]
+      "js": ["shared.js","keysocket-yandex-radio.js"],
+      "run_at": "document_end"
     },
     {
       "matches": ["*://tracksflow.com/*"],

@@ -1,6 +1,9 @@
 var playTarget = '.player-controls__play';
 var nextTarget = '.slider__item_next';
+var playingTarget = '.slider__item_playing';
+var observerTarget = '.centerblock';
 var controlsTarget = '.player-controls';
+var sliderTarget = '.slider__items';
 
 var imageTarget = '.track__cover';
 var titleTarget = '.track__title';
@@ -15,6 +18,8 @@ var notificationButtons = [
     {title: 'Like', button: likeTarget, icon: likeIconTarget},
     {title: 'Dislike', button: dislikeTarget, icon: dislikeIconTarget}
 ];
+
+createObserver(observerTarget);
 
 function onKeyPress(key) {
     var next = document.querySelector(nextTarget);
@@ -43,4 +48,40 @@ function createNotification(el) {
         source: 'Yandex Radio',
         buttons: notificationButtons
     });
+}
+
+function createObserver(target) {
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            if (mutation.addedNodes && mutation.addedNodes.length > 0) {
+                mutation.addedNodes.forEach((node) => {
+                    if (node.nodeType === Node.ELEMENT_NODE) {
+                        var playing = document.querySelector(playingTarget);
+
+                        if (target !== sliderTarget && node.classList.contains(playingTarget.slice(1))) {
+                            destroyObserver(observer);
+
+                            createObserver(sliderTarget);
+
+                            createNotification(playing);
+                        }
+
+                        if (target === sliderTarget) {
+                            createNotification(playing);
+                        }
+                    }
+                });
+            }
+        });
+    });
+
+    observer.observe(document.querySelector(target), {
+        subtree: true,
+        childList: true,
+        characterData: true
+    });
+}
+
+function destroyObserver(observer) {
+    observer.disconnect();
 }

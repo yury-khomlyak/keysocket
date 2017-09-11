@@ -47,7 +47,12 @@ function sendNotification(options) {
 function getStyleImage(el) {
     var imageUrl = getComputedStyle(el).backgroundImage;
 
-    imageUrl = imageUrl.slice(3).replace(/['"()]/g, '');
+    if (imageUrl === 'none') {
+        imageUrl = el.src;
+    } else {
+        imageUrl = imageUrl.slice(3).replace(/['"()]/g, '');
+    }
+    console.log(imageUrl);
 
     return imageUrl;
 }
@@ -67,4 +72,4 @@ chrome.runtime.sendMessage({command: 'registerTab'});
 
 window.onunload = function() {
     chrome.runtime.sendMessage({command: "unregisterTab"});
-}
+};
